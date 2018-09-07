@@ -13,7 +13,7 @@ $app ->get("/hola", function () use($app){
 
 
 
-$app->post("/products", function () use ($app, $db){
+$app->post("/products", function () use($app, $db){
    $json = $app->request->post('json');
 
    $data = json_decode($json, true);
@@ -21,10 +21,9 @@ $app->post("/products", function () use ($app, $db){
     if(!isset($data['codigo'])){
         $data['codigo']=null;
     }
-
-   if(!isset($data['version'])){
+    if(!isset($data['version'])){
         $data['version']=null;
-   }
+    }
     if(!isset($data['titulo'])){
         $data['titulo']=null;
     }
@@ -43,7 +42,6 @@ $app->post("/products", function () use ($app, $db){
     if(!isset($data['identi_cambios'])){
         $data['identi_cambios']=null;
     }
-
     if(!isset($data['fecha_revi'])){
         $data['fecha_revi']=null;
     }
@@ -57,40 +55,41 @@ $app->post("/products", function () use ($app, $db){
         $data['anexos']=null;
     }
 
-   $query = "INSERT INTO tab_document VALUES (NULL,".
-
-       "'{$data['codigo']}',".
-       "'{$data['version']}',".
-       "'{$data['titulo']}',".
-       "'{$data['proposito']}',".
-       "'{$data['alcance']}',".
-       "'{$data['respon_funcion']}',".
-       "'{$data['regis_x_actividad']}',".
-       "'{$data['identi_cambios']}',".
-       "'{$data['fecha_revi']}',".
-       "'{$data['aprobacion']}',".
-       "'{$data['descri_actividades']}',".
-       "'{$data['anexos']}'".
+    $query = "INSERT INTO tab_document VALUES (".
+        "'{$data['codigo']}',".
+        "'{$data['version']}',".
+        "'{$data['titulo']}',".
+        "'{$data['proposito']}',".
+        "'{$data['alcance']}',".
+        "'{$data['respon_funcion']}',".
+        "'{$data['regis_x_actividad']}',".
+        "'{$data['identi_cambios']}',".
+        "'{$data['fecha_revi']}',".
+        "'{$data['aprobacion']}',".
+        "'{$data['descri_actividades']}',".
+        "'{$data['anexos']}'".
         ");";
 
 
-        $insert = $db->query($query);
+    $insert = $db->query($query);
 
-        $result = array(
+    $result = array(
         'status' => 'error',
         'code' => 404,
         'message' => 'no ingresado correctamente'
-        );
+    );
 
-        if($insert){
-            $result = array(
-                'status' => 'success',
-                'code' => 200,
-                'message' => 'producto insertado'
-            );
-        };
+    if($insert){
+        $result = array(
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'producto insertado'
+        );
+    }
 
     echo json_encode($result);
+    var_dump($insert);
+
 });
 
 $app->run();
