@@ -55,7 +55,7 @@ $app->post("/products", function () use($app, $db){
         $data['anexos']=null;
     }
 
-    $query = "INSERT INTO tab_document VALUES (".
+    $query = "INSERT INTO tab_document VALUES (NULL, ".
         "'{$data['codigo']}',".
         "'{$data['version']}',".
         "'{$data['titulo']}',".
@@ -71,7 +71,7 @@ $app->post("/products", function () use($app, $db){
         ");";
 
 
-    $insert = $db->query($query);
+    $insert = $db -> query($query);
 
     $result = array(
         'status' => 'error',
