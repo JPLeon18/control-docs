@@ -7,12 +7,6 @@ $app = new \Slim\Slim();
 $db = new mysqli('localhost', 'root', '', 'db_docs');
 
 
-$app ->get("/hola", function () use($app){
-    echo "hola mundo";
-});
-
-
-
 
 
 // LISTAR TODOS LOS PRODUCTOS
