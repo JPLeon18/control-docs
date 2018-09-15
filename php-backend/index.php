@@ -13,6 +13,34 @@ $app ->get("/hola", function () use($app){
 
 
 
+
+
+// LISTAR TODOS LOS PRODUCTOS
+$app->get('/products', function ()use($db, $app){
+    $sql = 'SELECT * FROM tab_document ORDER BY codigo DESC;';
+    $query=$db->query($sql);
+
+
+    $documentos = array();
+    while ($documento = $query->fetch_assoc()){
+        $documentos[] = $documento;
+    }
+
+    $result = array(
+        'status' => 'success',
+        'code' => 200,
+        'message' => $documentos
+    );
+
+    echo json_encode($result);
+
+});
+
+
+
+
+
+// GUARDAR PRODUCTOS
 $app->post("/products", function () use($app, $db){
    $json = $app->request->post('json');
 
@@ -55,7 +83,7 @@ $app->post("/products", function () use($app, $db){
         $data['anexos']=null;
     }
 
-    $query = "INSERT INTO tab_document VALUES (NULL, ".
+    $query = "INSERT INTO tab_document VALUES (".
         "'{$data['codigo']}',".
         "'{$data['version']}',".
         "'{$data['titulo']}',".
@@ -88,7 +116,6 @@ $app->post("/products", function () use($app, $db){
     }
 
     echo json_encode($result);
-    var_dump($insert);
 
 });
 
