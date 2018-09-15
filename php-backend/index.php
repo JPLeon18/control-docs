@@ -31,8 +31,55 @@ $app->get('/products', function ()use($db, $app){
 });
 
 
+// DEVOLVER UN SOLO DOCUMENTO
+$app->get('/document/:codigo', function ($codigo) use ($db, $app) {
+    $sql = 'SELECT * FROM tab_document WHERE codigo = ' . $codigo;
 
+    $query = $db->query($sql);
 
+    $result = array(
+        'status' => 'error',
+        'code' => 404,
+        'message' => 'no encontrado'
+    );
+
+    if ($query->num_rows == 1) {
+        $producto = $query->fetch_assoc();
+
+        $result = array(
+            'status' => 'success',
+            'code' => 200,
+            'data' => $producto
+        );
+    }
+
+    echo json_encode($result);
+
+});
+
+// ELIMINAR UN PRODUCTO
+$app->get('/delete-document/:codigo', function ($codigo) use ($db, $app){
+    $sql = 'DELETE FROM tab_document WHERE codigo = '. $codigo;
+
+    $query = $db->query($sql);
+
+    if ($query){
+        $result = array(
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'documento eliminado'
+        );
+    }else{
+        $result = array(
+            'status' => 'error',
+            'code' => 404,
+            'message' => 'Producto no existe'
+        );
+    }
+
+    echo json_encode($result);
+
+});
 
 // GUARDAR PRODUCTOS
 $app->post("/products", function () use($app, $db){
